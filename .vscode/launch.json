@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Aktuelle Datei",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":[
+                "-s", "freeweb.org/sport/magicaroma",
+                "-m", "domain", //prefix
+                "-c", "digest", //urlkey
+                "-W", "200",
+                "-H", "200",
+                //"-e", "image/jpeg,image/gif,image/png,text/css,application/javascript,application/x-javascript,application/rss+xml,application/xml",
+                "-e", "text/css,application/javascript,application/x-javascript,application/rss+xml,application/xml",
+                "-i", "unk,video,audio,application,text",
+                "-U", "yes",
+                "-S", "no"
+            ],
+        }
+    ]
+}
