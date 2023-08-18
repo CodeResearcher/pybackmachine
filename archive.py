@@ -59,6 +59,7 @@ def extract_external_urls(resource_url, original_url, soup, base_directory):
     links = soup.find_all('a')
     for l in links:
         href = l.get('href')
+        href = href.strip('/')
         href_url = strip_archive_url(base_directory, href)
         if href_url is not None:
             href_host = href_url.hostname
@@ -68,7 +69,10 @@ def extract_external_urls(resource_url, original_url, soup, base_directory):
                     try:
                         rows = csv.reader(csvfile)
                         for r in rows:
-                            if r[2] == href_host:
+                            if href.endswith('.jpg') or href.endswith('.jpeg') or href.endswith('.png'):
+                                utils.write_to_csv(base_directory + "\\" + filename_ext_urls, [resource_url, href, href_host])
+                                break
+                            elif r[2] == href_host:
                                 exists = True
                                 break
                     except Exception as e:

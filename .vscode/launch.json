@@ -9,7 +9,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args":[
-                "-s", "freeweb.org/sport/magicaroma",
+                "-s", "imageshack.us",
                 "-m", "domain", //prefix
                 "-c", "digest", //urlkey
                 "-W", "200",
