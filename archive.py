@@ -57,29 +57,41 @@ def get_archive_timestamp(resource_url, original_url):
 def extract_external_urls(resource_url, original_url, soup, base_directory):
     original_url = urlparse(original_url)
     links = soup.find_all('a')
+
+    f = open('excluded.json')
+    domain_list = json.load(f)['domains']
+
     for l in links:
         href = l.get('href')
-        href = href.strip('/')
         href_url = strip_archive_url(base_directory, href)
         if href_url is not None:
+            href = href.strip('/')
             href_host = href_url.hostname
+
+            #check for external domain
             if (original_url.hostname != href_host):
-                exists = False
-                with open(base_directory + "\\" + filename_ext_urls, 'r') as csvfile:
-                    try:
-                        rows = csv.reader(csvfile)
-                        for r in rows:
-                            if href.endswith('.jpg') or href.endswith('.jpeg') or href.endswith('.png'):
-                                utils.write_to_csv(base_directory + "\\" + filename_ext_urls, [resource_url, href, href_host])
-                                break
-                            elif r[2] == href_host:
-                                exists = True
-                                break
-                    except Exception as e:
-                        utils.write_to_log(base_directory + "\\" + filename_error_log, "ERROR: " + resource_url)
-                        print(e)
-                if (exists == False):
+
+                #log external images
+                if href.endswith('.jpg') or href.endswith('.jpeg') or href.endswith('.png'):
                     utils.write_to_csv(base_directory + "\\" + filename_ext_urls, [resource_url, href, href_host])
+                #log shared domains e.g. geocities
+                elif [d for d in domain_list if(d in href)]:
+                    utils.write_to_csv(base_directory + "\\" + filename_ext_urls, [resource_url, href, href_host])
+                #log unique domains
+                else:
+                    exists = False
+                    with open(base_directory + "\\" + filename_ext_urls, 'r') as csvfile:
+                        try:
+                            rows = csv.reader(csvfile)
+                            for r in rows:
+                                if r[2] == href_host:
+                                    exists = True
+                                    break
+                        except Exception as e:
+                            utils.write_to_log(base_directory + "\\" + filename_error_log, "ERROR: " + resource_url)
+                            print(e)
+                    if (exists == False):
+                        utils.write_to_csv(base_directory + "\\" + filename_ext_urls, [resource_url, href, href_host])
 
 def save_image(mimetype, resource_url, original_url, data, base_directory, sub_directory, filename):
     description = ""
