@@ -3,13 +3,13 @@
     "configurations": [
         {
             "name": "Python: Aktuelle Datei",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args":[
-                "-s", "tifonet.it/calcioindex/",
+                "-s", "irriducibili.com",
                 "-m", "domain", //prefix
                 "-c", "digest", //urlkey
                 "-W", "200",

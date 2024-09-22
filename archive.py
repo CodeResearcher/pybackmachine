@@ -12,6 +12,7 @@ import os
 import sys
 import urllib3
 from tqdm import tqdm
+from time import sleep
 
 try:
     import utils
@@ -304,6 +305,9 @@ def download(source):
                     except Exception as e:
                         print(e)
 
+                    #API Rate Limit
+                    sleep(request_delay)
+
                     #retrieve resource
                     r = None
                     try:
@@ -363,6 +367,7 @@ if (__name__ == '__main__'):
     parser.add_argument('-H', '--Height')
     parser.add_argument('-U', '--Urls')
     parser.add_argument('-S', '--Sites')
+    parser.add_argument('-D', '--Delay')
 
     #add help section
 
@@ -376,5 +381,6 @@ if (__name__ == '__main__'):
     min_height = args.Height if args.Height is not None else (config.min_height if config is not None and config.min_height is not None else None)
     extract_urls = args.Urls if args.Urls is not None else (config.extract_urls if config is not None and config.extract_urls is not None else None)
     download_sites = args.Sites if args.Sites is not None else (config.download_sites if config is not None and config.download_sites is not None else None)
+    request_delay = args.Delay if args.Delay is not None else (config.request_delay if config is not None and config.request_delay is not None else None)
 
     download(source)

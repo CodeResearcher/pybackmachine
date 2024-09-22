@@ -19,3 +19,4 @@ extract_urls = "yes"
 cmd = "C:\Program Files (x86)\SWFTools\swfextract.exe"
 temp_dir = "C:\\temp"
 recursion_limit = 100
+request_delay = 10
